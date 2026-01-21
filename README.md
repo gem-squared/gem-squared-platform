@@ -348,7 +348,7 @@ For commercial licensing: [david@gemsquared.ai](mailto:david@gemsquared.ai)
 ```bibtex
 @misc{seo2026gem2,
   author = {Seo, Inseok (David)},
-  title = {{GEM² Platform Specification v1.5.5: Formal Framework for Autonomous AI Software Development}},
+  title = {GEM² Platform Specification v1.5.5: Formal Framework for Autonomous AI Software Development with Provable Boundaries and epistemic honesty},
   year = {2026},
   publisher = {GEMsquared.ai},
   howpublished = {\url{https://gem-squared.github.io/gem-squared-platform}}
