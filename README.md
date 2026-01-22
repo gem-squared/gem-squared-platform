@@ -23,7 +23,7 @@ GEM² transforms AI-assisted development from heuristic craft to formal engineer
 
 | Document | Description |
 |----------|-------------|
-| [Platform Specification v1.6.0](GEM^2-platform-spec-v1.6.0-public.md) | Core framework and formal foundations |
+| [Platform Specification v1.6.0](GEM2-platform-spec-v1.6.0-public.md) | Core framework and formal foundations |
 | [TPMN Epistemology v1.6.1](GEM2-TPMN-Epistemology-v1.6.1.md) | Theoretical foundations of TPMN |
 | [TPMN User Manual v1.0.0](GEM2-TPMN-user-manual-v1.0.0.md) | Practical guide for using TPMN |
 
