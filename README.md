@@ -1,5 +1,7 @@
 # GEM² Platform Specification
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18336200.svg)](https://doi.org/10.5281/zenodo.18336200)
+
 **Governance, Evidence, and Matrix Management**
 
 > **"Don't write prompts. Write specifications."**
@@ -91,6 +93,7 @@ For commercial licensing: **david@gemsquared.ai**
   title = {GEM²: A Formal Framework for Autonomous AI Software Development with Provable Boundaries},
   year = {2026},
   publisher = {GEMsquared.ai},
+  doi = {10.5281/zenodo.18336200},
   howpublished = {\url{https://gemsquared.ai}}
 }
 ```
