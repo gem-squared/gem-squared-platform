@@ -15,7 +15,7 @@ with **provable boundaries and epistemic honesty**.
 
 **GEM² Platform** transforms AI-assisted development from heuristic craft to formal engineering. AI actors execute within **mathematically defined, verifiable boundaries** — not through hope, but through proof.
 
-**TPMN is the compiler** — prompts are validated before execution, outputs verified after.
+**Under TPMN, an LLM becomes a compiler** — prompts are validated before execution, outputs verified after.
 
 This document defines the **conceptual model and dynamics** of GEM² Platform.
 
@@ -403,9 +403,10 @@ Promotion: Actor creates → GACC validates → Promote to FINAL_LAYER → Freez
 
 ## Part IV: How — TPMN Prompt Compilation
 
-### TPMN: The Compiler for AI
+### TPMN: Making LLM Act as Compiler
 
 > **TPMN applies RLAIF principles at inference-time (NOT training).**
+> **Core Claim: An LLM becomes a compiler UNDER TPMN RULES.**
 
 **TPMN_Compiler_Features** — What "compiler" means here:
 
@@ -521,7 +522,7 @@ Phase 3 (RLAIF): Stored patterns → training signal → model improvement
 ## Core Takeaways
 
 1. **GEM² is a universe, not a tool.**
-2. **TPMN is a compiler, not a prompt template.**
+2. **Under TPMN, LLM acts as compiler, not prompt template executor.**
 3. **AI actors execute within provable boundaries.**
 4. **Evidence replaces time; proof replaces hope.**
 5. **Epistemic honesty is mandatory (EEF).**
