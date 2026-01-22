@@ -1,4 +1,4 @@
-# GEM² Platform Specification v1.5.5
+# GEM² Platform Specification v1.6.0
 
 **Governance, Evidence, and Matrix Management**
 
@@ -79,7 +79,7 @@ AUTONOMOUS EXECUTION:
 
   • Full decision authority within Cell_TLA.P constraints
   • T_AI replaces human coding through interpolation
-  • Mathematically provable: U_b → U_e → U_r → ξ → Ω
+  • Mathematically provable: ξ(U_b, U_e, U_r) → Ω
   • With NTC-VPC + TPMN + GEM², self-sufficient for autonomy
 
 AI INTERPOLATION:
@@ -91,12 +91,28 @@ AI INTERPOLATION:
   • Execution path is OPAQUE — only contract satisfaction matters
 
 TPMN DUAL-GATE:
-  "Legislator before, Judge after"
+  "Legislator at prompt-intake, Judge at output-validation"
 
+  • An LLM becomes a compiler UNDER TPMN RULES
   • TPMN_P (Legislator): Validates prompt BEFORE AI runs
   • TPMN_O (Judge): Verifies output AFTER AI runs
   • EEF: Flags EXTRAPOLATION — epistemic honesty mandatory
   • SPT: Prohibits S→T, L→G, Δe→∫de transitions
+
+  TPMN_Pipeline:
+    Prompt
+      ↓
+    [TPMN_P] ← Legislator (prompt-intake)
+      ↓ extracts
+    A_Priori_Grid (IR)
+      ↓
+    [LLM] ← CodeGen (interpolation)
+      ↓ generates
+    Raw_Output
+      ↓
+    [TPMN_O] ← Judge (output-validation)
+      ↓ validates
+    Valid_Output ∨ Repair_Loop
 ```
 
 ---
@@ -551,6 +567,7 @@ Phase 3 (RLAIF): Stored patterns → training signal → model improvement
 | **TPMN** | The prompt compilation framework (Legislator + Judge) |
 | **TPMN_P** | Prompt validator — runs BEFORE AI execution |
 | **TPMN_O** | Output validator — runs AFTER AI execution |
+| **A_Priori_Grid** | IR (Intermediate Representation) — extracted from prompt by TPMN_P |
 | **EEF** | Extrapolation/Evidence Flag — epistemic honesty marker |
 | **SPT** | Strictly Prohibited Transitions (S→T, L→G, Δe→∫de) |
 
@@ -611,7 +628,7 @@ For commercial licensing inquiries: **david@gemsquared.ai**
 
 ```
 Seo, Inseok (David).
-"GEM² Platform Specification v1.5.5:
+"GEM² Platform Specification v1.6.0:
 Formal Framework for Autonomous AI Software Development."
 GEMsquared.ai, January 2026.
 ```
@@ -622,7 +639,7 @@ GEMsquared.ai, January 2026.
 
 ---
 
-*GEM² Platform Specification v1.5.5 (Public) | Conceptual Overview | 2026-01-21*
+*GEM² Platform Specification v1.6.0 (Public) | Conceptual Overview | 2026-01-22*
 
 **Tagline:**
 "AI is not magic; it is a probabilistic engine that becomes deterministic when constrained by a rigorous Topology (GEM²)."
