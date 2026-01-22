@@ -19,15 +19,13 @@ GEM² transforms AI-assisted development from heuristic craft to formal engineer
 
 ---
 
-## Quick Start
+## Documentation
 
-Read the [GEM² Platform Specification](GEM²-platform-spec-v1.5.5-public.md) for:
-
-1. **Core Philosophy** — Why evidence-based AI governance matters
-2. **Formal Foundations** — The mathematical structures (tensors, matrices, laws)
-3. **TPMN Compilation** — How prompt validation works
-4. **Minimal Path** — 5 essential concepts + end-to-end example
-5. **Glossary** — All symbols and terms defined
+| Document | Description |
+|----------|-------------|
+| [Platform Specification v1.6.0](GEM^2-platform-spec-v1.6.0-public.md) | Core framework and formal foundations |
+| [TPMN Epistemology v1.6.1](GEM2-TPMN-Epistemology-v1.6.1.md) | Theoretical foundations of TPMN |
+| [TPMN User Manual v1.0.0](GEM2-TPMN-user-manual-v1.0.0.md) | Practical guide for using TPMN |
 
 ---
 
