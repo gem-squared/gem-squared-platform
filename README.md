@@ -2,6 +2,8 @@
 
 **Governance, Evidence, and Matrix Management**
 
+> **"Don't write prompts. Write specifications."**
+
 A formal framework for autonomous AI software development with provable boundaries and epistemic honesty.
 
 ---
@@ -10,12 +12,22 @@ A formal framework for autonomous AI software development with provable boundari
 
 GEM² transforms AI-assisted development from heuristic craft to formal engineering. Instead of hoping AI outputs are correct, GEM² provides **mathematical guarantees** through:
 
-- **TPMN** — A "compiler" for prompts that validates inputs and verifies outputs
+- **TPMN** — The Prompt Specification Language (PSL) that validates inputs and verifies outputs
 - **Dual-Gate Validation** — AI governs AI through TPMN_P (before) + TPMN_O (after)
 - **Evidence-Based Completion** — Progress measured by evidence, not time
 - **Epistemic Honesty** — AI must flag when it's extrapolating (EEF)
 
-> **"Prompt Engineering → Prompt Compilation → AI: from Magic to Engineering"**
+> *Prompt Engineering → Prompt Compilation. The Protocol for Autonomous AI.*
+
+---
+
+## Three Pillars of PSL
+
+| Pillar | What It Does |
+|--------|--------------|
+| **Grammar** | Formal syntax for AI instructions |
+| **Protocol** | Dual-gate validation (TPMN_P + TPMN_O) |
+| **Result** | Evidence-based completion criteria |
 
 ---
 
@@ -33,7 +45,7 @@ GEM² transforms AI-assisted development from heuristic craft to formal engineer
 
 | Concept | One-liner |
 |---------|-----------|
-| **TPMN_P** | Validates prompt BEFORE AI runs |
+| **TPMN_P** | Validates specification BEFORE AI runs |
 | **TPMN_O** | Verifies output AFTER AI runs |
 | **EEF** | Flags when AI extrapolates |
 | **SPT** | Forbids illicit reasoning leaps |
@@ -45,7 +57,7 @@ GEM² transforms AI-assisted development from heuristic craft to formal engineer
 
 ```
 Traditional:  Prompt → AI → Hope
-GEM²:         Prompt → TPMN_P → AI → TPMN_O → Trust
+GEM²:         Specification → TPMN_P → AI → TPMN_O → Trust
 ```
 
 GEM² doesn't make AI smarter — it makes AI **provable**.
