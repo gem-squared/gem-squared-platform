@@ -1,6 +1,6 @@
-# GEM² Platform Specification v1.6.0
+# GEM² Platform Specification v1.6.3
 
-**Governance, Evidence, and Matrix Management**
+**Grounded Existence Matrix for Global Entropy Minimum**
 
 A formal framework for autonomous AI software development
 with **provable boundaries and epistemic honesty**.
@@ -8,6 +8,23 @@ with **provable boundaries and epistemic honesty**.
 ---
 
 ## Part I: Introduction
+
+### What is GEM²?
+
+**GEM² = Grounded Existence Matrix for Global Entropy Minimum**
+
+In plain language:
+- **Grounded Existence** — Every element in the system has verified, traceable existence
+- **Matrix** — Components are organized in a structured grid (DSM)
+- **Global Entropy Minimum** — The system converges to a stable, error-free state
+
+**GEM² is a closed system**: All elements must be quantifiable, deterministic, and controllable. Ambiguous or unmeasurable things (like "make it better") are transformed into concrete specifications before entering GEM².
+
+**GEM² State** is achieved when:
+1. All required elements exist and are verified
+2. System disorder (entropy) approaches zero
+
+---
 
 ### Overview
 
@@ -26,7 +43,7 @@ This document defines the **conceptual model and dynamics** of GEM² Platform.
 ```
 GEM²            → Company + Platform + Mathematical Universe
 GEM² platform   → GEM² + NTC-VPC + TPMN + GACC + GEM-KG
-NTC-VPC         → Specification (conservation laws)
+NTC-VPC         → N(otation) T(opology) C(ontract) + V(erification) P(rocess) C(oordination)
 TPMN            → Legislator, DUAL-GATE (TPMN_P/O)
 GACC + GEM-KG   → Orchestrator + Knowledge Graph
 T_AI            → AI Actors executing within boundaries
@@ -36,7 +53,7 @@ T_AI            → AI Actors executing within boundaries
 |-------|------|
 | **GEM²** | The universe-maker (company, platform, mathematical space) |
 | **GEM² platform** | Integration: GEM² + NTC-VPC + TPMN + GACC + GEM-KG |
-| **NTC-VPC** | Conservation laws ensuring provability |
+| **NTC-VPC** | **N**otation + **T**opology + **C**ontract (SPEC) / **V**erification + **P**rocess + **C**oordination (EXEC) |
 | **TPMN** | Prompt compilation — Legislator + Judge |
 | **GACC** | Orchestrator + Quality Gate |
 | **T_AI** | AI Actors (G, S, D, I, E) |
@@ -249,12 +266,12 @@ GEM² enforces **three conservation laws** that guarantee provability:
 |-----|------|-------|---------|
 | **L_S** | Set Law | CELL | Once value leaves ⊥, it cannot return |
 | **L_C** | Calculus Law | LIFECYCLE | Layer transitions require threshold θ crossing |
-| **L_A** | Algebra Law | MATRIX | Weight ⊕ operations preserve matrix semantics |
+| **L_A** | Algebra Law | MATRIX | BridgeOperator aggregation — Cell→Tensor derivation |
 
 ```
 L_S: (U[T][c] ≠ ⊥) ⇒ □(U[T][c] ≠ ⊥)    — Cell monotonicity
 L_C: (L_C → θ → L_S)                    — Continuous → threshold → Discrete
-L_A: Coherence(U) preserved under ⊕     — Matrix algebra closure
+L_A: BridgeOperator(cells) → Tensor     — Aggregation authorization
 ```
 
 #### SPT: Strictly Prohibited Transitions
@@ -640,7 +657,7 @@ GEMsquared.ai, January 2026.
 
 ---
 
-*GEM² Platform Specification v1.6.0 (Public) | Conceptual Overview | 2026-01-22*
+*GEM² Platform Specification v1.6.3 (Public) | Conceptual Overview | 2026-01-26*
 
 **Tagline:**
 "AI is not magic; it is a probabilistic engine that becomes deterministic when constrained by a rigorous Topology (GEM²)."

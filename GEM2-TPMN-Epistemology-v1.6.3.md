@@ -1,7 +1,7 @@
 # GEM² TPMN Epistemology Specification
 
-**Version:** v1.6.1 | **Status:** Companion | **Updated:** 2026-01-22
-**Parent:** GEM2-spec-v1.5.6.md
+**Version:** v1.6.3 | **Status:** Companion | **Updated:** 2026-01-23
+**Parent:** GEM2-spec-v1.5.8.md
 **Tagline:** *"Don't write prompts. Write specifications."*
 
 ---
@@ -117,10 +117,12 @@ ConceptualFraming ≜ [
 
 (* ═══ DOCUMENT SCOPE ═══ *)
 Scope ≜ [
-  purpose:     "PHILOSOPHICAL — explains WHY TPMN works (Kantian mapping)",
-  not_purpose: "OPERATIONAL — does NOT define mechanically decidable predicates",
-  predicates:  "ILLUSTRATIVE — convey concepts, not implementation specs",
-  formal_defs: "GEM2-spec-v1.5.6.md §TPMN_PRIMITIVES"
+  purpose:        "PHILOSOPHICAL — explains WHY TPMN works (Kantian mapping)",
+  not_purpose:    "OPERATIONAL — does NOT define mechanically decidable predicates",
+  predicates:     "ILLUSTRATIVE — convey concepts, not implementation specs",
+  formal_defs:    "GEM2-spec-v1.5.8.md §TPMN_PRIMITIVES",
+  extension_rule: "Any added pipeline concept MUST remain epistemic (WHY) and bind to spec via NotationBindings",
+  non_goal:       "Do NOT define mechanically decidable predicates here; only schemas + mappings"
 ]
 
 (* Predicates like Has_Explicit_Metric, Sat, etc. appear here as CONCEPTUAL *)
@@ -135,7 +137,15 @@ NotationBindings ≜ [
   "Output ⊨ constraint"                 → "Sat(Output, constraint)",
   "new_term ∈ Output"                   → "term ∈ NewTerm(Output)",
   "Output.content is EXTRAPOLATION"     → "ClassifyInference(content, evidence) = EXTRAPOLATION",
-  "EEF_Flag == True"                    → "EEF_Flag.extrapolation = TRUE"
+  "EEF_Flag == True"                    → "EEF_Flag.extrapolation = TRUE",
+
+  (* ═══ PIPELINE BINDINGS (v1.6.3) ═══ *)
+  "KCR(p)"                              → "TPMN_P.Compile(p) + Diagnostics",
+  "FNC(Pc)"                             → "P3_Entity_Typing + P3a..P3d commitments",
+  "WSP(Pc)"                             → "LogicalForm_Epistemic (proposition schema + falsifiers)",
+  "LogicalForm_Epistemic"               → "P6_LogicalForm (spec-side when defined)",
+  "DecisionFn"                          → "GACC policy decision over {PASS, ASK_HUMAN, RETRY_AI, TERMINATE}",
+  "RETRY_AI"                            → "Re-run LLM with same Pc, no human input"
 ]
 
 TPMN_EPISTEMOLOGY ≜ [
@@ -425,7 +435,33 @@ TPMN_EPISTEMOLOGY ≜ [
       P3_Entity_Typing ≜ [
         rule:    "Key nouns must be typed/structured",
         example: "User ≜ [id: UUID, name: String] vs ambiguous 'User'",
-        purpose: "Prevent AI from conflating object with reference"
+        purpose: "Prevent AI from conflating object with reference",
+
+        (* P3 Subrules — NounConstraint Refinement v1.6.2 *)
+        subrules: [
+          P3a_IdentityConstraint ≜ [
+            rule:    "∀ entity_ref: Has_Stable_Identifier(entity_ref)",
+            check:   "Same label must refer to same entity throughout",
+            example: "'User' in line 5 = 'User' in line 20 (no identity drift)"
+          ],
+          P3b_ConceptConstraint ≜ [
+            rule:    "∀ entity_ref: Has_TypeOrClass(entity_ref)",
+            check:   "Declared type remains invariant across scope",
+            spt:     "Guards ¬L→G (prevents type drift from local to global)",
+            example: "User: Person — cannot later treat User as Organization"
+          ],
+          P3c_PointerConstraint ≜ [
+            rule:    "∀ pointer_ref: Has_Anchor(pointer_ref)",
+            check:   "References (pronouns, 'it', 'this') must resolve to defined entity",
+            example: "'it' must anchor to specific entity, not float ambiguously"
+          ],
+          P3d_SchemaConstraint ≜ [
+            rule:    "∀ dependent_noun: Has_Schema_Definition(dependent_noun)",
+            check:   "Incomplete nouns (의존명사) must have schema declared BEFORE use",
+            example: "'the result' requires: result ≜ [status: Bool, value: Int]",
+            note:    "Compile-time obligation — forces completion pre-execution"
+          ]
+        ]
       ],
 
       P4_Output_Schema ≜ [
@@ -470,6 +506,29 @@ TPMN_EPISTEMOLOGY ≜ [
         rule:    "∀ new_term ∈ Output: (new_term ∈ Prompt) ∨ (new_term ∈ Library)",
         example: "AI invents variable 'x' not in prompt or stdlib → FAIL",
         purpose: "Hallucination detection"
+      ],
+
+      (* O3x: NounConstraint Verification — corresponds to P3a-P3d *)
+      O3a_Identity_Consistency ≜ [
+        rule:    "¬∃e: SameLabel(e) ∧ DifferentEntity(e)",
+        example: "'User' refers to different things in output → FAIL",
+        purpose: "Identity drift prohibition",
+        maps_to: "P3a_IdentityConstraint"
+      ],
+
+      O3b_Concept_Stability ≜ [
+        rule:    "DeclaredType(e) remains invariant across output scope",
+        example: "User declared as Person, later treated as Org → FAIL",
+        purpose: "Type drift prevention",
+        spt:     "Guards ¬L→G",
+        maps_to: "P3b_ConceptConstraint"
+      ],
+
+      O3c_Pointer_Resolution ≜ [
+        rule:    "∀ pointer: Resolved(pointer) ∨ Explicitly_UNC(pointer)",
+        example: "'it' used without clear referent → FAIL (unless marked UNC)",
+        purpose: "Reference anchoring verification",
+        maps_to: "P3c_PointerConstraint"
       ],
 
       O4_Internal_Consistency ≜ [
@@ -527,6 +586,128 @@ TPMN_EPISTEMOLOGY ≜ [
       "→ TPMN(O): Output Verification",
       "→ Valid Output (Executable)"
     >>
+  ],
+
+  (* ═══ 5.1 PIPELINE_for_TPMN_check (Epistemic Extension) ═══ *)
+  (* DualGate stays canonical; PIPELINE refines compile/verify into 3 epistemic lenses *)
+
+  PIPELINE_for_TPMN_check ≜ [
+
+    Principle ≜ [
+      claim:         "DualGate stays canonical; PIPELINE refines the compile/verify narrative into 3 epistemic lenses",
+      compatibility: "TPMN_P and TPMN_O unchanged; PIPELINE is an explanatory decomposition"
+    ],
+
+    (* ═══ TERM DEFINITIONS (Self-Contained) ═══ *)
+    Terms ≜ [
+      Prompt_p ≜ [what: "Raw user prompt (NL input)", role: "Source"],
+      Pc_Executable ≜ [
+        what: "Executable prompt-contract record for LLM",
+        form: "[Prompt + extracted CONTRACT + A_Priori_Grid + Diagnostics + LoopPolicy]",
+        note: "Executable-for-LLM-under-TPMN rules, not machine-run program"
+      ],
+      ConfidenceScore ≜ [
+        what:  "Scalar diagnostic from TPMN_P about prompt well-formedness",
+        range: "implementation-defined (abstract in epistemology)"
+      ],
+      Oc ≜ [
+        what: "ObjectConstraint — typed entity commitments",
+        schema: [Entities, Anchors, Obligations, Invariants: ⟨"identity stable", "concept stable"⟩]
+      ],
+      Pp ≜ [
+        what: "Proposition (Picture) that mirrors Oc's structure",
+        schema: [Names, Relations, Constraints, Falsifiers, EvidenceReq]
+      ],
+      LoopPolicy ≜ [
+        what: "Bounded retry/ask loop control",
+        controlled_by: "BridgeOperator_GACC",
+        fields: [max_rounds, cost_budget, uncertainty_budget]
+      ]
+    ],
+
+    (* ═══ EPISTEMIC GATES ═══ *)
+    KCR ≜ [
+      name:    "Kantian Critique of Reason (epistemic gate)",
+      input:   "Prompt_p",
+      output:  "[Pc_Executable, Diagnostics]",
+      logic:   "p → Pc | P5_Context_Isolation",
+      purpose: "Verify at inference-boundary; classify interpolation vs extrapolation; require UNC when needed"
+    ],
+
+    FNC ≜ [
+      name:     "Four-Noun Constraining (object boundary gate)",
+      input:    "Pc_Executable",
+      output:   "Oc",
+      logic:    "Extract nouns/objects → enforce P3 typing + P3a..P3d stability",
+      binds_to: "P3a, P3b, P3c, P3d"
+    ],
+
+    WSP ≜ [
+      name:    "Wittgensteinian Picturing (logical-form gate)",
+      input:   "Pc_Executable",
+      output:  "Pp",
+      purpose: "Represent 'WHAT should be HOW' as proposition with shared logical form; enable feasibility/falsifiability checks"
+    ],
+
+    LogicalForm_Epistemic ≜ [
+      what: "Rule family requiring propositions to be expressible as logical forms with explicit falsifiers",
+      note: "Epistemology describes WHY; operational decidability belongs to spec (binds to P6 when spec defines it)"
+    ],
+
+    DecisionFn ≜ [
+      what:    "Deterministic selection of pipeline mode and next action",
+      output:  "{PASS, ASK_HUMAN, RETRY_AI, TERMINATE}",
+      inputs:  ⟨"ConfidenceScore", "EEF", "SPT_Risk", "CostBudget", "MaxRounds"⟩,
+      RETRY_AI: "Re-run LLM with same Pc, no human input"
+    ],
+
+    (* ═══ PIPELINE MODES ═══ *)
+    PipelineModes ≜ [
+      BASIC ≜ [
+        flow:           "p → KCR(p)",
+        output:         "Pc",
+        pass_condition: "DecisionFn(...) = PASS"
+      ],
+      OPTIONAL ≜ [
+        left:  [flow: "p → KCR(p) → FNC(Pc)", output: "Pc + Oc"],
+        right: [flow: "p → KCR(p) → WSP(Pc)", output: "Pc + Pp"],
+        constraint: "If KCR fails → DecisionFn(...) = ASK_HUMAN ∨ TERMINATE"
+      ],
+      FULL ≜ [
+        flow:       "p → KCR(p) → FNC(Pc) → WSP(Pc)",
+        output:     "Pc + Oc + Pp",
+        constraint: "DecisionFn enforces LoopPolicy bounds (GACC)"
+      ]
+    ],
+
+    (* ═══ WITTGENSTEIN INTEGRATION ═══ *)
+    WittgensteinIntegration ≜ [
+      idea: "A proposition pictures a possible state-of-affairs via shared logical form",
+      tpmn_mapping: [
+        picture_form: "Pp.Names + Pp.Relations mirror Oc.Entities + Oc.Anchors",
+        meaning:      "Meaning = conditions of satisfaction + falsifiers (phenomena testable)",
+        guardrail:    "No L→G: proposition speaks only within declared model/contract scope"
+      ]
+    ],
+
+    (* ═══ FEASIBILITY AND FALSIFIABILITY ═══ *)
+    Feasibility_Falsifiability ≜ [
+      feasibility ≜ [
+        rule:     "If Pp requires undefined tools/contradictory constraints → mark UNC and ASK_HUMAN",
+        binds_to: "P5 context isolation + O4 internal consistency"
+      ],
+      falsifiability ≜ [
+        rule: "Every critical claim in Pc should admit at least one falsifier in Pp.Falsifiers",
+        note: "If none exists → claim is non-testable within phenomena; mark UNC"
+      ]
+    ],
+
+    (* ═══ LOOP SEMANTICS ═══ *)
+    LoopSemantics ≜ [
+      repeat: "ASK_HUMAN produces clarified prompt p'; rerun BASIC/OPTIONAL/FULL",
+      stop:   "TERMINATE when LoopPolicy budget exhausted or contradictions persist"
+    ]
+
   ],
 
   (* ═══ 6. GACC AS TRANSCENDENTAL UNITY ═══ *)
@@ -674,7 +855,8 @@ TPMN_EPISTEMOLOGY ≜ [
       "Separate WHY (epistemology) from WHAT (primitives)",
       "Bind informal symbols to spec predicates",
       "Enforce SPT + EEF",
-      "Treat failures as repair loops with bounded retries"
+      "Treat failures as repair loops with bounded retries",
+      "PIPELINE: Prefer BASIC; escalate to FULL only when AmbiguityThreshold triggers"
     >>
 
   ]
@@ -706,6 +888,20 @@ EpistemologyMapping ≜ [
   A_Priori_Grid: "The Categories (P0-P5 ∪ O1-O6)"
 ]
 
+(* ═══ PIPELINE GLOSSARY (v1.6.3) ═══ *)
+PIPELINE_Glossary ≜ [
+  Pc_Executable:        "Executable prompt-contract for LLM [Prompt + CONTRACT + A_Priori_Grid + Diagnostics + LoopPolicy]",
+  KCR:                  "Kantian Critique of Reason — epistemic gate (p → Pc)",
+  FNC:                  "Four-Noun Constraining — object boundary gate (Pc → Oc)",
+  WSP:                  "Wittgensteinian Picturing — logical-form gate (Pc → Pp)",
+  Oc:                   "ObjectConstraint — typed entity commitments + anchors + obligations",
+  Pp:                   "Proposition (Picture) — names, relations, constraints, falsifiers, evidence requirements",
+  LogicalForm_Epistemic:"Rule family for expressible logical forms (binds to P6 in spec)",
+  DecisionFn:           "Policy decision → {PASS, ASK_HUMAN, RETRY_AI, TERMINATE}",
+  LoopPolicy:           "Bounded retry control [max_rounds, cost_budget, uncertainty_budget]",
+  BridgeOperator_GACC:  "Governor enforcing loop/cost policies — unifying validity condition"
+]
+
 (* ═══ T_AI SOP ALIGNMENT ═══ *)
 T_AI_SOP ≜ <<
   "1. Receive Input (Prompt)",
@@ -724,4 +920,4 @@ T_AI_SOP ≜ <<
 
 ---
 
-**v1.6.1 | GEM² TPMN Epistemology | Companion to GEM2-spec-v1.5.6 | 2026-01-22**
+**v1.6.3 | GEM² TPMN Epistemology | Companion to GEM2-spec-v1.5.8 | 2026-01-23**

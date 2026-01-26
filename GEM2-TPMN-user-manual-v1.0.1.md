@@ -1,7 +1,7 @@
 # TPMN: The Prompt Specification Language
 
-**Version:** v1.0.0 | **Status:** User Manual | **Updated:** 2026-01-22
-**Parent:** GEM2-TPMN-Epistemology-v1.6.1.md
+**Version:** v1.0.1 | **Status:** User Manual | **Updated:** 2026-01-22
+**Parent:** GEM2-TPMN-Epistemology-v1.6.3.md
 
 ---
 
@@ -127,6 +127,10 @@ TPMN_SPECIFICATION(Task_Name) ≜ [
 | **P1** | Metric Binding | key: value (numeric or binary) | Rejects "efficient" without measure |
 | **P2** | Negation | Must use NO, NOT, FORBIDDEN, ¬ | Rejects purely permissive constraints |
 | **P3** | Typing | Entity: [field: Type] | Rejects ambiguous nouns as variables |
+| **P3a** | Identity | ∀ entity: Has_Stable_Identifier | Rejects same label → different entity |
+| **P3b** | Concept | ∀ entity: Type invariant across scope | Rejects type drift (guards ¬L→G) |
+| **P3c** | Pointer | ∀ ref: Has_Anchor(ref) | Rejects dangling references ("it", "this") |
+| **P3d** | Schema Completion | ∀ dependent_noun: Has_Schema | Rejects incomplete nouns without definition |
 | **P4** | Schema | Must define output container | Rejects unstructured text streams |
 | **P5** | Isolation | Explicit Allowed/Denied resources | Rejects assumed access (e.g., network) |
 
@@ -143,6 +147,9 @@ TPMN_O_CHECK(Self_Verification) ≜ [
   O1_Schema:      PASS | FAIL,   (* Did it match P4? *)
   O2_Constraints: PASS | FAIL,   (* Did it respect P2? *)
   O3_Grounding:   PASS | FAIL,   (* Are all terms defined in P3? *)
+  O3a_Identity:   PASS | FAIL,   (* Same label = same entity? (no drift) *)
+  O3b_Concept:    PASS | FAIL,   (* Type invariant across scope? *)
+  O3c_Pointer:    PASS | FAIL,   (* All references resolved? *)
   O4_Logic:       PASS | FAIL,   (* No contradictions? *)
 
   (* Epistemic Honesty *)
